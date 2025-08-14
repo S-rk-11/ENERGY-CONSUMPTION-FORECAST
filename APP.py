@@ -94,7 +94,7 @@ expected_features = model.get_booster().feature_names
 # -------------------------
 # Sidebar Controls
 # -------------------------
-st.sidebar.header("🛠 Forecast Settings")
+st.sidebar.header("Forecast Settings")
 start_date = datetime(2018, 1, 2).date()
 st.sidebar.markdown(f"**Forecast Start Date:** `{start_date}`")
 
@@ -110,7 +110,7 @@ df.dropna(inplace=True)
 predictions = []
 last_known = df.copy()
 
-with st.spinner("🔮 Generating Forecast..."):
+with st.spinner(" Generating Forecast..."):
     for _ in range(future_days):
         next_date = last_known.index[-1] + timedelta(days=1)
         if next_date < pd.to_datetime(start_date):
@@ -144,7 +144,7 @@ recent_actual = df[["PJMW_MW"]].rename(columns={"PJMW_MW": "Actual_MW"}).tail(30
 plot_df = pd.concat([recent_actual, forecast_df], axis=0)
 
 # Plot
-st.subheader("📊 Energy Forecast Plot")
+st.subheader("Energy Forecast Plot")
 fig, ax = plt.subplots(figsize=(12, 5))
 plot_df.plot(ax=ax, linewidth=2, marker='o', grid=True)
 ax.set_xlabel("Date")
@@ -155,19 +155,19 @@ st.pyplot(fig)
 
 # Summary
 latest = forecast_df.Forecast_MW.values
-st.markdown("### 📌 Forecast Summary")
+st.markdown("### Forecast Summary")
 col1, col2, col3 = st.columns(3)
 col1.metric("🔺 Max Forecast", f"{np.max(latest):.2f} MW")
 col2.metric("🔻 Min Forecast", f"{np.min(latest):.2f} MW")
 col3.metric("📈 Avg Forecast", f"{np.mean(latest):.2f} MW")
 
 # Table
-st.subheader(f"📄 Forecast Table - {future_days} Day(s)")
+st.subheader(f"Forecast Table - {future_days} Day(s)")
 st.dataframe(forecast_df.reset_index().head(future_days))
 
 # Download
 st.download_button(
-    label="📥 Download Forecast CSV",
+    label="Download Forecast CSV",
     data=forecast_df.reset_index().to_csv(index=False),
     file_name="daily_energy_forecast.csv",
     mime="text/csv"
